@@ -64,10 +64,26 @@ int verificarEspaco(int posicao){
 	int diferenca = vetorPrincipal[posicao-1].tamanho - vetorPrincipal[posicao-1].contador;
 	
 	if(diferenca > 0) {
-			retorno = diferenca;
+		retorno = diferenca;
 	} else {
 		retorno = 0;
 	}
+	return retorno;
+}
+
+int verficarValor(int posicao, int valor) {
+	int retorno = -1;
+	// printf("posicao: %d\n", posicao);
+	// printf("valor fora: %d\n", valor);
+	// printf("Valor no vetor: %d\n", vetorPrincipal[posicao-1].posicao[0]);
+	for (int i = 0; i < vetorPrincipal[posicao-1].tamanho; i++){
+		if(vetorPrincipal[posicao-1].posicao[i] == valor){
+		    // printf("valor: %d\n", valor);
+		    //  printf("Funcao verificarValor no vetor: %d\n", vetorPrincipal[posicao-1].posicao[i]);
+            retorno = i;
+		}	
+	}
+		//printf("retorno posicao na Funcao verificarValor: %d\n", retorno);
 	return retorno;
 }
 
@@ -176,10 +192,52 @@ Rertono (int)
     SEM_ESTRUTURA_AUXILIAR - Não tem estrutura auxiliar
     POSICAO_INVALIDA - Posição inválida para estrutura auxiliar
 */
-int excluirNumeroDoFinaldaEstrutura(int posicao)
-{
-    int retorno = SUCESSO;
-    return retorno;
+int excluirNumeroDoFinaldaEstrutura(int posicao) {
+		int retorno = 0;
+		//int valor = -1; //verificar se esta correto
+		//int existeEstruturaAuxiliar = verificarEstrutura(posicao);
+		//int temEspaco = verificarEspaco(posicao);
+		//int posicao_invalida = ehPosicaoValida(posicao);
+		//se posicao for negativa ou nao existir retorna invalido
+		// printf("vetor da funcao excluir antes  \n");
+		// for(int i = 0; i < vetorPrincipal[posicao-1].tamanho; i++){
+		// 	printf("%d", vetorPrincipal[posicao-1].posicao[i]);
+		// }
+		//printf("\n");
+		if (ehPosicaoValida(posicao)) { 
+			// testar se existe a estrutura auxiliar
+			if (verificarEstrutura(posicao)){ //se posicao entre 1 e 10 existir retorna 1
+					if (verificarEspaco(posicao) == vetorPrincipal[posicao-1].tamanho){//se tamanho - contador for igual a tam retorna estrutura vazia. Ex: tam = 3; contador = 0; 3-0 = 3; retono = estrutura vazia
+						retorno = ESTRUTURA_AUXILIAR_VAZIA;
+					}else {
+						int cont = vetorPrincipal[posicao-1].contador;
+						vetorPrincipal[posicao-1].posicao[cont-1] = INT_MIN;//verificar se o valor esta sendo guardado corretamente
+						vetorPrincipal[posicao-1].contador--;
+						retorno = SUCESSO;
+
+						// //para conferir os valores do vetor foram preenchido com -1
+						// printf("vetor da funcao excluir depois\n");
+						// for(int i = 0; i < vetorPrincipal[posicao-1].tamanho; i++){
+						// 	printf("%d", vetorPrincipal[posicao-1].posicao[i]);
+						// }
+						// printf("\n");
+					}
+			} else{
+					retorno = SEM_ESTRUTURA_AUXILIAR;
+			}
+		}	else {
+			retorno = POSICAO_INVALIDA;
+		}
+
+	//  printf("Contador: %d\n", vetorPrincipal[posicao-1].contador);
+	//  printf("Tamanho: %d\n", vetorPrincipal[posicao-1].tamanho);
+	// 	printf("Entrada posicao: %d\n", posicao);
+	// 	printf("Entrada valor: %d\n", valor);
+	//  printf("Retorno: %d\n", retorno);
+	// 	printf("Existe estrutura: %d\n", existeEstruturaAuxiliar);
+	// 	printf("Tem espaco: %d\n", temEspaco);
+	// 	printf("Posicao invalida: %d\n", posicao_invalida);
+		return retorno;
 }
 
 /*
@@ -195,11 +253,61 @@ Rertono (int)
     POSICAO_INVALIDA - Posição inválida para estrutura auxiliar
 
 */
-int excluirNumeroEspecificoDeEstrutura(int posicao, int valor)
-{
-    int retorno = SUCESSO;
-    return retorno;
+int excluirNumeroEspecificoDeEstrutura(int posicao, int valor){
+	//perguntar se a funcao excluirNumeroEspecifico precisa deslocar os elementos para direita
+	int retorno = 0;
+	// printf("vetor da funcao excluir especifico antes  \n");
+	// for(int i = 0; i < vetorPrincipal[posicao-1].tamanho; i++){
+	// 	if(vetorPrincipal[posicao-1].posicao[i] != INT_MIN){
+	// 		printf("%d ", vetorPrincipal[posicao-1].posicao[i]);
+	// 	}
+	// }
+	// printf("\n");
+	//int existeEstruturaAuxiliar = verificarEstrutura(posicao);
+	//int temEspaco = verificarEspaco(posicao);
+	//int posicao_invalida = ehPosicaoValida(posicao);
+	int existeValor = verficarValor(posicao, valor);
+	//se posicao for negativa ou nao existir retorna invalido
+	if (!ehPosicaoValida(posicao)) {
+			retorno = POSICAO_INVALIDA;
+	}	else {
+			// testar se existe a estrutura auxiliar
+			if (verificarEstrutura(posicao)){ //se posicao entre 1 e 10 existir retorna 1
+					if (verificarEspaco(posicao) > 0){ //se contador for menor que o tamanho da estrutura auxiliar retorna 1
+						if(existeValor < 0) {
+							retorno = NUMERO_INEXISTENTE;	
+						} else{
+							vetorPrincipal[posicao-1].posicao[existeValor] = INT_MIN;//verificar se o valor esta sendo guardado corretamente
+							vetorPrincipal[posicao-1].contador--;
+							//printf("Contador: %d\n", vetorPrincipal[posicao-1].contador);
+							//printf("Tamanho: %d\n", vetorPrincipal[posicao-1].tamanho);
+							// printf("vetor da funcao excluir especifico depois  \n");
+							// for(int i = 0; i < vetorPrincipal[posicao-1].tamanho; i++){
+							// 	if(vetorPrincipal[posicao-1].posicao[i] != INT_MIN){
+							// 		printf("%d ", vetorPrincipal[posicao-1].posicao[i]);
+							// 	}
+							// }
+							// printf("\n");
+								retorno = SUCESSO;
+						}
+					}
+					else {
+							retorno = SEM_ESPACO;
+					}
+			} else{
+					retorno = SEM_ESTRUTURA_AUXILIAR;
+			}
+	}
+	// printf("Entrada posicao: %d\n", posicao);
+	// printf("Entrada valor: %d\n", valor);
+	// printf("Retorno: %d\n", retorno);
+	// printf("Retorno da posicao do valor: %d\n", existeValor);
+	// printf("Existe estrutura: %d\n", existeEstruturaAuxiliar);
+	// printf("Tem espaco: %d\n", temEspaco);
+	// printf("Posicao invalida: %d\n", posicao_invalida);
+	return retorno;
 }
+
 
 /*
 Objetivo: retorna os números da estrutura auxiliar da posição 'posicao (1..10)'.
