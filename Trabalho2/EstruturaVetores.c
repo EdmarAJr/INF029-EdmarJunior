@@ -454,11 +454,41 @@ Rertono (int)
     SUCESSO - recuperado com sucesso os valores da estrutura na posição 'posicao'
     TODAS_ESTRUTURAS_AUXILIARES_VAZIAS - todas as estruturas auxiliares estão vazias
 */
-int getDadosDeTodasEstruturasAuxiliares(int vetorAux[])
-{
+int getDadosDeTodasEstruturasAuxiliares(int vetorAux[]){
+	int retorno = TODAS_ESTRUTURAS_AUXILIARES_VAZIAS;
 
-    int retorno = 0;
-    return retorno;
+	// printf("valorAux getDadosDeTodas ");
+	// for(int i = 0; i < 3; i++){
+	// 	printf("%d ", vetorAux[i]);
+	// }
+	// printf("\n");
+
+	int i = 0, j, cont = 0, k = 0;
+	for(i = 0; i < TAM; i++ ){
+			if(vetorPrincipal[i].posicao != NULL){ //se a estrutura for nula adiciona no contador
+				//size_t tamEstrutura = sizeof(vetorPrincipal)/sizeof(vetorPrincipal[0]); //retorna o tamanho do vetor principal, mas so serve para memorias alocadas dinamicamente
+					for(j = 0; j < TAM; j++){
+						if(vetorPrincipal[i].posicao[j] == INT_MIN && vetorPrincipal[i].posicao[j+1] == INT_MIN) {
+							break; //sai do laco se a estrutura auxiliar vazia (lembre-se que inicializa com INT_MIN)
+						} else {
+							vetorAux[k] = vetorPrincipal[i].posicao[j];
+							k++;
+							retorno = SUCESSO;
+							if(!vetorPrincipal[i].posicao[j]){
+								break; //sai do laco de a estrutura auxiliar estiver vazia
+							} 
+						}
+					} 
+			} 
+	}
+	// 	printf("Entrada posicao: %d\n", posicao);
+	// 	printf("Entrada vetor: %d\n", vetorAux[posicao-1]);
+	//  printf("Retorno: %d\n", retorno);
+	// 	printf("Existe estrutura: %d\n", existeEstruturaAuxiliar);
+	// 	printf("Posicao invalida: %d\n", posicao_invalida);
+	//  printf("Retorno da posicao do valor: %d\n", existeValor);
+		// printf("Tem espaco: %d\n", temEspaco);
+	return retorno;
 }
 
 /*
