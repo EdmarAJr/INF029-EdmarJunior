@@ -651,12 +651,11 @@ void destruirListaEncadeadaComCabecote(No **inicio)
 }
 
 /*
-Objetivo: inicializa o programa. deve ser chamado ao inicio do programa 
-
-*/
-
-void inicializar()
-{
+Objetivo: inicializa o programa. deve ser chamado ao inicio do programa. Funcao para incializar o vetor com NULL. OBS: util para encontrar posicoes vazias*/
+void inicializar(){ 
+	for(int i = 0; i < TAM; i++){
+		vetorPrincipal[i].posicao = NULL;//recebe NULL por ser um ponteiro de inteiros
+	}
 }
 
 /*
@@ -665,6 +664,8 @@ para poder liberar todos os espaços de memória das estruturas auxiliares.
 
 */
 
-void finalizar()
-{
+void finalizar(){
+	for(int i =0; i<10; i++) {
+	    free(vetorPrincipal -> posicao);
+	}
 }
