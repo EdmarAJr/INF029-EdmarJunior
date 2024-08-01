@@ -499,12 +499,43 @@ Rertono (int)
     SUCESSO - recuperado com sucesso os valores da estrutura na posição 'posicao'
     TODAS_ESTRUTURAS_AUXILIARES_VAZIAS - todas as estruturas auxiliares estão vazias
 */
-int getDadosOrdenadosDeTodasEstruturasAuxiliares(int vetorAux[])
-{
-
-    int retorno = 0;
-    return retorno;
+int getDadosOrdenadosDeTodasEstruturasAuxiliares(int vetorAux[]){
+	int retorno = TODAS_ESTRUTURAS_AUXILIARES_VAZIAS;
+	int i = 0, j, cont = 0, k = 0, temp;
+	
+	for(i = 0;i < TAM; i++ ){
+			if(vetorPrincipal[i].posicao != NULL){ //se a estrutura for nula adiciona no contador
+				//size_t tamEstrutura = sizeof(vetorPrincipal)/sizeof(vetorPrincipal[0]); //retorna o tamanho do vetor principal
+					for(j = 0; j < TAM; j++){
+							if(vetorPrincipal[i].posicao[j] == INT_MIN && vetorPrincipal[i].posicao[j+1] == INT_MIN) {
+								break; //sai do laco se a estrutura auxiliar vazia (lembre-se que inicializa com INT_MIN)
+							} else {
+									vetorAux[k] = vetorPrincipal[i].posicao[j];
+									k++;
+									if(!vetorPrincipal[i].posicao[j]){
+									break; //sai do laco de a estrutura auxiliar estiver vazia
+								} 
+							}
+					} 
+			} else {
+				cont++;
+				// printf("valor de i: %d\n", i);
+				// printf("Contador: %d\n", cont);
+			}
+	}
+	for(i = 0; i < k-1; i++) {
+		for(j = 0; j < k-1; j++){
+			if(vetorAux[j+1]<vetorAux[j]){
+				temp = vetorAux[j];
+				vetorAux[j] = vetorAux[j+1];
+				vetorAux[j+1] = temp;
+				retorno = SUCESSO;
+			}
+		}
+	}
+	return retorno;
 }
+
 
 /*
 Objetivo: modificar o tamanho da estrutura auxiliar da posição 'posicao' para o novo tamanho 'novoTamanho' + tamanho atual
