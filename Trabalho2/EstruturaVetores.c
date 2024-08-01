@@ -548,11 +548,57 @@ Rertono (int)
     NOVO_TAMANHO_INVALIDO - novo tamanho não pode ser negativo
     SEM_ESPACO_DE_MEMORIA - erro na alocação do novo valor
 */
-int modificarTamanhoEstruturaAuxiliar(int posicao, int novoTamanho)
-{
+int modificarTamanhoEstruturaAuxiliar(int posicao, int novoTamanho){
+		int retorno = 0;
+		//int existeEstruturaAuxiliar = verificarEstrutura(posicao);
+		//int temEspaco = verificarEspaco(posicao);
+		//int posicao_invalida = ehPosicaoValida(posicao);
+		//se posicao for negativa ou nao existir retorna invalido
+		// printf("vetor da funcao excluir antes  \n");
+		// for(int i = 0; i < TAM; i++){
+		// 	printf("%d", vetorPrincipal[posicao-1].tamanho);
+		// }
+		//printf("\n");
+		if (!ehPosicaoValida(posicao)) { 
+			retorno = POSICAO_INVALIDA;
+		}	else if(novoTamanho + vetorPrincipal[posicao-1].tamanho <= 0){
+				// o tamanho nao pode ser menor que 1
+				retorno = NOVO_TAMANHO_INVALIDO;
+			}	else {
+				// testar se existe a estrutura auxiliar
+				if (verificarEstrutura(posicao)){ //se posicao entre 1 e 10 existir retorna 1
+						if (!verificarEspaco(posicao)){ //se contador for igual a zero retorna 0
+							if(novoTamanho > 0){
+								novoTamanho = novoTamanho + vetorPrincipal[posicao-1].tamanho;
+							} 
+							if(novoTamanho < 0){
+								novoTamanho = vetorPrincipal[posicao-1].tamanho - novoTamanho;
+							} 
+							vetorPrincipal[posicao-1].posicao =  malloc(novoTamanho*sizeof(int));
+							vetorPrincipal[posicao-1].tamanho = novoTamanho;
+							retorno = SUCESSO;
+							// printf("vetor da funcao tamanho depois\n");
+							// for(int i = 0; i < TAM; i++){
+							// 	printf("%d", vetorPrincipal[posicao-1].tamanho);
+							// }
+							// printf("\n");
+						}	else {
+								retorno = SEM_ESPACO;
+						}
+				} else{
+						retorno = SEM_ESTRUTURA_AUXILIAR;
+				}
+		}
 
-    int retorno = 0;
-    return retorno;
+	// printf("Contador: %d\n", vetorPrincipal[posicao-1].contador);
+	// printf("Tamanho: %d\n", vetorPrincipal[posicao-1].tamanho);
+	// 	printf("Entrada posicao: %d\n", posicao);
+	// 	//printf("Entrada valor: %d\n", valor);
+		printf("Retorno: %d\n", retorno);
+	// 	printf("Existe estrutura: %d\n", existeEstruturaAuxiliar);
+	// 	printf("Tem espaco: %d\n", temEspaco);
+	// 	printf("Posicao invalida: %d\n", posicao_invalida);
+		return retorno;
 }
 
 /*
