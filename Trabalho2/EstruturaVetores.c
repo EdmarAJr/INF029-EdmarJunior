@@ -1,10 +1,23 @@
+/* para compilar
+gcc mainTeste.c EstruturaVetores.c -o teste
+gcc main.c EstruturaVetores.c -o teste*/
 #include <stdio.h>
 #include <stdlib.h>
+#include <limits.h> // Para INT_MAX
+#include <stddef.h> // Para size_t
 #define TAM 10
 
 #include "EstruturaVetores.h"
 
-int vetorPrincipal[TAM];
+typedef struct celula {
+	int *posicao;
+	int contador;
+	int tamanho;
+} Celula;
+
+//vetorPrincipal eh uma variavel global??
+Celula vetorPrincipal[TAM]; //vetor de celulas struct
+//Celula vetorPrincipal[TAM]={NULL}; //Isso tambem funciona no lugar da funcao inicializar??
 
 /*
 Objetivo: criar estrutura auxiliar na posição 'posicao'.
@@ -17,24 +30,82 @@ Rertono (int)
     SEM_ESPACO_DE_MEMORIA - Sem espaço de memória
     TAMANHO_INVALIDO - o tamanho deve ser maior ou igual a 1
 */
-int criarEstruturaAuxiliar(int posicao, int tamanho)
-{
 
-    int retorno = 0;
-    // a posicao pode já existir estrutura auxiliar
-    retorno = JA_TEM_ESTRUTURA_AUXILIAR;
-    // se posição é um valor válido {entre 1 e 10}
-    retorno = POSICAO_INVALIDA;
-    // o tamanho ser muito grande
-    retorno = SEM_ESPACO_DE_MEMORIA;
-    // o tamanho nao pode ser menor que 1
-    retorno = TAMANHO_INVALIDO;
-    // deu tudo certo, crie
-    retorno = SUCESSO;
-
-    return retorno;
+int verificarEstrutura(int posicao){
+	int retorno = 0;
+	//printf("Entrada na funcao verificar Estrutura %d\n", posicao);
+	//printf("Busca real na funcao verficar Estrutura %d\n", posicao-1);
+	//se o valor posicao for menor que 0 ou maior que 10 retorna -1
+	if(vetorPrincipal[posicao-1].posicao != NULL){
+			retorno = 1;
+	}
+	//se o valor posicao for entre 1 e 10 e nao existir posicao criada no vetor retorna 0, ou seja a posicao nao existe
+//	printf("Retorno da funcao verificar Estrutura %d\n", retorno);
+	return retorno;
 }
 
+// se posicao eh um valor valido {entre 1 e 10}
+int ehPosicaoValida(int posicao){
+		int retorno = 1;
+		if(posicao < 1 || posicao > 10)
+			return retorno = 0;
+		//se o valor posicao for entre 1 e 10 e existir posicao criada no vetor retorna 1, ou seja a posicao existe
+	
+		// if (posicao < 1 || posicao > 10) {
+		// 		retorno = POSICAO_INVALIDA;
+		// }
+		// else
+		// 		retorno = SUCESSO;
+
+		return retorno;
+}
+
+
+int criarEstruturaAuxiliar(int posicao, int tamanho){
+	//int verificar = verificarEstrutura(posicao-1);
+		//int *ptr_posicao; //ponteiro para modificar o valor de posicao
+		//ptr_posicao = &posicao; //guardando o valor de posicao
+		int retorno = 0;
+		
+		//retorna -1 para invalido retorna 0 para posicao nao existente e retorna 1 para posicao existente;
+		//int posicao_invalida = ehPosicaoValida(posicao);
+		//int existeEstruturaAuxiliar = verificarEstrutura(posicao);
+		
+		//se a posicao nao existir retorna invalido
+		if(!ehPosicaoValida(posicao)){
+			// se posição eh um valor valido {entre 1 e 10}
+			retorno = POSICAO_INVALIDA;
+		} else if(tamanho < 1){
+			// o tamanho nao pode ser menor que 1
+			retorno = TAMANHO_INVALIDO;
+		} else if(verificarEstrutura(posicao)) { //se a posicao existir retorna jah existente
+			// a posicao pode jah existir estrutura auxiliar
+			retorno = JA_TEM_ESTRUTURA_AUXILIAR;
+		} else if(tamanho > INT_MAX){
+			 	// o tamanho eh muito grande
+				retorno = SEM_ESPACO_DE_MEMORIA; //perguntar para o professor o que eh esse caso
+		}else{
+			vetorPrincipal[posicao-1].posicao =  malloc(tamanho*sizeof(int));
+			vetorPrincipal[posicao-1].contador = 0;
+			vetorPrincipal[posicao-1].tamanho = tamanho;
+			
+			for(int i = 0; i < tamanho; i++){
+				vetorPrincipal[posicao-1].posicao[i] = INT_MIN;//preenche todas com sentinela int_min
+			}
+			// //para conferir se o vetor foi preenchido com INT_MIN
+			// printf("\n");
+			// for(int i = 0; i < tamanho; i++){
+			// 	printf("%d", vetorPrincipal[posicao-1].posicao[i]);
+			// }
+			// printf("\n");
+			
+			// deu tudo certo, crie
+			retorno = SUCESSO;
+		}
+		//printf("Tamanho %d\n", tamanho);
+		//printf("Retorno ENUM: \t%2d\n", SUCESSO);
+		return retorno;
+}
 /*
 Objetivo: inserir número 'valor' em estrutura auxiliar da posição 'posicao'
 Rertono (int)
