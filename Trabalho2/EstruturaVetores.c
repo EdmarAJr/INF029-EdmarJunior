@@ -4,7 +4,6 @@ gcc main.c EstruturaVetores.c -o teste*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <limits.h> // Para INT_MAX
-#include <stddef.h> // Para size_t
 #define TAM 10
 
 #include "EstruturaVetores.h"
@@ -184,19 +183,6 @@ int excluirNumeroEspecificoDeEstrutura(int posicao, int valor)
     return retorno;
 }
 
-// se posição é um valor válido {entre 1 e 10}
-int ehPosicaoValida(int posicao)
-{
-    int retorno = 0;
-    if (posicao < 1 || posicao > 10)
-    {
-        retorno = POSICAO_INVALIDA;
-    }
-    else
-        retorno = SUCESSO;
-
-    return retorno;
-}
 /*
 Objetivo: retorna os números da estrutura auxiliar da posição 'posicao (1..10)'.
 os números devem ser armazenados em vetorAux
