@@ -59,6 +59,17 @@ int ehPosicaoValida(int posicao){
 		return retorno;
 }
 
+int verificarEspaco(int posicao){
+	int retorno;
+	int diferenca = vetorPrincipal[posicao-1].tamanho - vetorPrincipal[posicao-1].contador;
+	
+	if(diferenca > 0) {
+			retorno = diferenca;
+	} else {
+		retorno = 0;
+	}
+	return retorno;
+}
 
 int criarEstruturaAuxiliar(int posicao, int tamanho){
 	//int verificar = verificarEstrutura(posicao-1);
@@ -114,38 +125,45 @@ Rertono (int)
     POSICAO_INVALIDA - Posição inválida para estrutura auxiliar
 CONSTANTES
 */
-int inserirNumeroEmEstrutura(int posicao, int valor)
-{
-    int retorno = 0;
-    int existeEstruturaAuxiliar = 0;
-    int temEspaco = 0;
-    int posicao_invalida = 0;
-
-    if (posicao_invalida)
-        retorno = POSICAO_INVALIDA;
-    else
-    {
-        // testar se existe a estrutura auxiliar
-        if (existeEstruturaAuxiliar)
-        {
-            if (temEspaco)
-            {
-                //insere
-                retorno = SUCESSO;
-            }
-            else
-            {
-                retorno = SEM_ESPACO;
-            }
-        }
-        else
-        {
-            retorno = SEM_ESTRUTURA_AUXILIAR;
-        }
-    }
-
-    return retorno;
+int inserirNumeroEmEstrutura(int posicao, int valor){
+		int retorno = 0;
+		//int existeEstruturaAuxiliar = verificarEstrutura(posicao);
+		//int temEspaco = verificarEspaco(posicao);
+		//int posicao_invalida = ehPosicaoValida(posicao);
+		//se posicao for negativa ou nao existir retorna invalido
+		if (ehPosicaoValida(posicao)) {
+			// testar se existe a estrutura auxiliar
+			if (verificarEstrutura(posicao)){ //se posicao entre 1 e 10 existir retorna 1
+					if (verificarEspaco(posicao)){ //se tamanho - contador for igual a 0 retorna sem espaco. Ex: tam = 3; contado = 3; 3-3 = 0; retono = sem espaco
+						int cont = vetorPrincipal[posicao-1].contador;
+						vetorPrincipal[posicao-1].posicao[cont] = valor;//verificar se o valor esta sendo guardado corretamente
+						// printf("Funcao Inserir Contador: %d\n", vetorPrincipal[posicao-1].contador);
+						// for(int i=0; i < vetorPrincipal[posicao-1].contador; i++){
+						// 	printf("Funcao Inserir Numero no array: %d\n", vetorPrincipal[posicao-1].posicao[i]);
+						// }
+							vetorPrincipal[posicao-1].contador++;
+						//printf("Tamanho: %d\n", vetorPrincipal[posicao-1].tamanho);
+							retorno = SUCESSO;
+					}
+					else {
+						retorno = SEM_ESPACO;
+					}
+			} else{
+					retorno = SEM_ESTRUTURA_AUXILIAR;
+			}
+		}	else {
+				retorno = POSICAO_INVALIDA;
+				
+		}
+		// printf("Entrada posicao: %d\n", posicao);
+		// printf("Entrada valor: %d\n", valor);
+		// printf("Retorno: %d\n", retorno);
+		// printf("Existe estrutura: %d\n", verificarEstrutura(posicao);
+		// printf("Tem espaco: %d\n", verificarEspaco(posicao));
+		// printf("Posicao invalida: %d\n", posicao_invalida);
+		return retorno;
 }
+
 
 /*
 Objetivo: excluir o numero 'valor' da estrutura auxiliar no final da estrutura.
