@@ -318,12 +318,62 @@ Retorno (int)
     SEM_ESTRUTURA_AUXILIAR - Não tem estrutura auxiliar
     POSICAO_INVALIDA - Posição inválida para estrutura auxiliar
 */
-int getDadosEstruturaAuxiliar(int posicao, int vetorAux[])
-{
+int getDadosEstruturaAuxiliar(int posicao, int vetorAux[]){
+	// printf("valorAux getDados antes: ");
+	// for(int i = 0; i < 3; i++){
+	// 	printf("%d ", vetorAux[i]);
+	// }
+	// printf("\n");
+		int retorno = 0;
+		// int existeEstruturaAuxiliar = verificarEstrutura(posicao);
+	 //  int posicao_invalida = ehPosicaoValida(posicao);
+		
+		if (!ehPosicaoValida(posicao)) {
+				retorno = POSICAO_INVALIDA;
+		}	else {
+				if(verificarEstrutura(posicao)){
+						// //o vetor principal recebe os valores
+						// printf("vetor da funcao getDados antes  \n");
+						// for(int i = 0; i < vetorPrincipal[posicao-1].tamanho; i++){
+						// 	if(vetorPrincipal[posicao-1].posicao[i] != INT_MIN){
+						// 		printf("%d ", vetorPrincipal[posicao-1].posicao[i]);
+						// 	}
+						// }
+						// printf("\n");
 
-    int retorno = 0;
+					
+					int j = 0;
+					int contador = 0;//apagar, pois ehpara testar se o vetorAuxiliar estah somente sem INT_MIN e indo ate j
+					//o vetor principal nesta posicao ja foi populado e tranferido para o vetor auxiliar sem os valores INT_MIN e -1
+					//printf("valorAux getDados depois: ");
+					for (int i = 0; i < vetorPrincipal[posicao-1].tamanho; i++){
+						if(vetorPrincipal[posicao-1].posicao[i] != INT_MIN){
+                            vetorAux[j] = vetorPrincipal[posicao-1].posicao[i];
+							//printf("%d ", vetorAux[i]);
+							j++;
+							contador++;
+						}
+					}	
 
-    return retorno;
+					// //lista os valores  do vetor auxiliar filtrados
+					// printf("vetor da funcao getDados depois  \n");
+					// for(int i = 0; i < contador; i++){
+					// 	printf("%d ", vetorAux[i]);				
+					// }
+					// printf("\n");
+						retorno = SUCESSO;
+				} else {
+						retorno = SEM_ESTRUTURA_AUXILIAR;
+            }
+        }
+			//printf("Entrada posicao: %d\n", posicao);
+			// printf("Entrada vetor: %d\n", vetorAux[posicao-1]);
+			// printf("Retorno: %d\n", retorno);
+			// printf("Existe estrutura: %d\n", existeEstruturaAuxiliar);
+			// printf("Posicao invalida: %d\n", posicao_invalida);
+			// printf("Retorno da posicao do valor: %d\n", existeValor);
+			// printf("Tem espaco: %d\n", temEspaco);
+		return retorno;
 }
 
 /*
