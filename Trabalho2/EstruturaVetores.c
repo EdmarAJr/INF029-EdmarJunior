@@ -685,14 +685,34 @@ No *montarListaEncadeadaComCabecote(){
 }
 
 /*
+Objetivo: retorna os números da lista enceada com cabeçote armazenando em vetorAux.
+Retorno void
+*/
+void getDadosListaEncadeadaComCabecote(No *inicio, int vetorAux[]){
+	No *atual = inicio->prox;
+	int i = 0;
+	while (atual != NULL) {
+	 	vetorAux[i] = atual->conteudo; //guarda o valor do vetorAux[i] em atual.conteudo 
+	 	atual = atual->prox;
+	 	i++;
+	}
+}
+
+/*
 Objetivo: Destruir a lista encadeada com cabeçote a partir de início.
 O ponteiro inicio deve ficar com NULL.
 
 Retorno 
-    void.
+		void.
 */
 void destruirListaEncadeadaComCabecote(No **inicio){
-
+	No *atual = *inicio;
+	while (atual != NULL) {
+		No *proximo = atual->prox;
+		free(atual);
+		atual = proximo;
+	}
+	*inicio = NULL;
 }
 
 /*
