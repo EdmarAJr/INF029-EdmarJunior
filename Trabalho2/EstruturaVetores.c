@@ -663,8 +663,25 @@ No *montarListaEncadeadaComCabecote() {
 Objetivo: retorna os números da lista enceada com cabeçote armazenando em vetorAux.
 Retorno void
 */
-void getDadosListaEncadeadaComCabecote(No *inicio, int vetorAux[]){
+No *montarListaEncadeadaComCabecote(){
+	int vetorAux2[TAM];
+	getDadosDeTodasEstruturasAuxiliares(vetorAux2);//chama a funcao getDados para salvar em vetorAuxiliar2 as posicoes de todas as estruturas auxiliares
 
+	No *inicio = (No *)malloc(sizeof(No)); // O ponteiro prox do cabeçote é inicializado como NULL
+	
+	inicio->prox = NULL;//inicio aponta para NULL
+	No *atual = inicio;//cria um ponteiro para struct do tipo "No" *atual que recebe o  valor do ponteiro para struct do tipo "No" *inicio da lista. Agora atual passa a apontar para null
+	
+	// Percorre o vetor auxiliar e cria os nos na lista
+	for (int i = 0; i < TAM; i++) {
+		No *novo = (No *)malloc(sizeof(No));//cria um novo No
+		novo->conteudo = vetorAux2[i];//atribui a posicao das estruturas auxiliares ao conteudo do novo
+		novo->prox = NULL;//novo aponta para o final da lista NULL
+		atual->prox = novo;//atual aponta para o novo e atual recebe o novo
+		atual = novo;//atual que antes apontava para NULL agora recebe o valor de novo
+	}
+
+	return inicio;
 }
 
 /*
