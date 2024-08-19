@@ -655,82 +655,58 @@ Retorno (No*)
     NULL, caso não tenha nenhum número nas listas
     No*, ponteiro para o início da lista com cabeçote
 */
-No *montarListaEncadeadaComCabecote() {
-    return NULL;
-}
-
-/*
-Objetivo: retorna os números da lista enceada com cabeçote armazenando em vetorAux.
-Retorno void
-*/
 No *montarListaEncadeadaComCabecote(){
-	int vetorAux2[TAM];
+	int tam = 0;
+	for(int i = 0; i < TAM; i++) {
+		tam += vetorPrincipal[i].contador;
+		// printf("Tamanho %d: contador: %d do vetor: %d \n",  vetorPrincipal[i].tamanho, vetorPrincipal[i].contador, i);
+	}
+	int vetorAux2[tam];
+	// printf("Tamanho do vetor: %d\n", tam);
 	getDadosDeTodasEstruturasAuxiliares(vetorAux2);//chama a funcao getDados para salvar em vetorAuxiliar2 as posicoes de todas as estruturas auxiliares
 
-	No *inicio = (No *)malloc(sizeof(No)); // O ponteiro prox do cabeçote é inicializado como NULL
+	No *inicio = (No *) malloc(sizeof(No)); //cria o no cabecote
 	
-	inicio->prox = NULL;//inicio aponta para NULL
-	No *atual = inicio;//cria um ponteiro para struct do tipo "No" *atual que recebe o  valor do ponteiro para struct do tipo "No" *inicio da lista. Agora atual passa a apontar para null
+	inicio->prox = NULL;//O ponteiro prox do cabeçote eh inicializado como NULL
+	No *atual = inicio;//Cria um ponteiro do tipo "No" *atual. Ele eh inicializado com o endereço do ponteiro tipo "No" *inicio. Agora *atual e *inicio apontam para null
 	
 	// Percorre o vetor auxiliar e cria os nos na lista
-	for (int i = 0; i < TAM; i++) {
-		No *novo = (No *)malloc(sizeof(No));//cria um novo No
+	for(int i = 0; i < TAM; i++) {
+		No *novo = (No *)malloc(sizeof(No));//cria um ponteiro do tipo "No" *novo
 		novo->conteudo = vetorAux2[i];//atribui a posicao das estruturas auxiliares ao conteudo do novo
 		novo->prox = NULL;//novo aponta para o final da lista NULL
 		atual->prox = novo;//atual aponta para o novo e atual recebe o novo
-		atual = novo;//atual que antes apontava para NULL agora recebe o valor de novo
+		atual = novo;//*atual que antes apontava para NULL agora recebe o valor de *novo
 	}
 
 	return inicio;
 }
 
-/*
-Objetivo: retorna os números da lista enceada com cabeçote armazenando em vetorAux.
-Retorno void
-*/
 void getDadosListaEncadeadaComCabecote(No *inicio, int vetorAux[]){
-	No *atual = inicio->prox;
+	No *atual = inicio->prox;//atual recebe o endereço do proximo no do cabecote
 	int i = 0;
 	while (atual != NULL) {
 	 	vetorAux[i] = atual->conteudo; //guarda o valor do vetorAux[i] em atual.conteudo 
-	 	atual = atual->prox;
+	 	atual = atual->prox;//atualiza o valor e atual para o proximo no
 	 	i++;
 	}
 }
 
-/*
-Objetivo: Destruir a lista encadeada com cabeçote a partir de início.
-O ponteiro inicio deve ficar com NULL.
-
-Retorno 
-		void.
-*/
 void destruirListaEncadeadaComCabecote(No **inicio){
-	No *atual = *inicio;
-	while (atual != NULL) {
-		No *proximo = atual->prox;
-		free(atual);
-		atual = proximo;
+	No *atual = *inicio;//elemento auxiliar de permuta recebe o endereço do cabecote
+	while (atual != NULL) {//limpa a memoria do incio ate o final
+		No *proximo = atual->prox;//segundo elemento de permuta recebe o endereço do proximo no
+		free(atual);//libera a memoria do atual
+		atual = proximo; //atualiza o valor de atual para o proximo no
 	}
-	*inicio = NULL;
+	*inicio = NULL;//quando eliminar todos os nos cabecote aponta para NULL 
 }
 
-/*
-Objetivo: inicializa o programa. deve ser chamado ao inicio do programa. Funcao para incializar o vetor com NULL. OBS: util para encontrar posicoes vazias*/
 void inicializar(){ 
-	for(int i = 0; i < TAM; i++){
-		vetorPrincipal[i].posicao = NULL;//recebe NULL por ser um ponteiro de inteiros
-	}
+	for(int i = 0; i < TAM; i++) 
+		vetorPrincipal[i].posicao = NULL;
 }
-
-/*
-Objetivo: finaliza o programa. deve ser chamado ao final do programa 
-para poder liberar todos os espaços de memória das estruturas auxiliares.
-
-*/
 
 void finalizar(){
-	for(int i =0; i<TAM; i++) {
-	    free(vetorPrincipal -> posicao); //so eh possivel usar -> para as propriedades de uma struct e vetorPrincial eh um array de struct
-	}
+	free(vetorPrincipal -> posicao);
 }
