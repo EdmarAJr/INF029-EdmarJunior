@@ -8,12 +8,12 @@
 
 Discente listaDiscentes[TAMANHO_ARRAY_DISCENTE];
 
-int quantidadeDeDiscentes = 1; // inicializa com 1 para evitar que o primeiro cadastro seja excluido
+int quantidadeDeDiscentes = 0; // inicializa com 1 para evitar que o primeiro cadastro seja excluido
 int matricula = 0;
 
-Discente listaDiscentes[TAMANHO_ARRAY_DISCENTE] = {
-	{55, "Estudante Y", 'M', {10, 10, 2000}, "123.456.789-09", 1}
-};
+// Discente listaDiscentes[TAMANHO_ARRAY_DISCENTE] = {
+// 	{55, "Estudante Y", 'M', {10, 10, 2000}, "123.456.789-09", 1}
+// };
 
 
 int cadastrarDiscente (int quantidadeDeDiscentes, Discente listaDiscentes[]) {
@@ -33,6 +33,9 @@ int cadastrarDiscente (int quantidadeDeDiscentes, Discente listaDiscentes[]) {
 		} else {
 			printf("Informe o nome da(o) discente: ");
 			fgets(listaDiscentes[quantidadeDeDiscentes].nome, 50, stdin);
+			// remover o '\n' se ele existir
+			listaDiscentes[quantidadeDeDiscentes].nome[strcspn(listaDiscentes[quantidadeDeDiscentes].nome, "\n")] = '\0';
+
 			char verificarsexo;
 
 			printf("Digite o sexo da(o) discente (M) ou (F): ");
@@ -90,6 +93,7 @@ int cadastrarDiscente (int quantidadeDeDiscentes, Discente listaDiscentes[]) {
 				return 7;
 			}			
 		}
+		quantidadeDeDiscentes++;
 	}
 }
 
@@ -101,7 +105,7 @@ int listarDiscentes (int quantidadeDeDiscentes, Discente listaDiscentes[]) {
 			if (listaDiscentes[i].ativo == 1) {
 					printf("_____________________________________________");
 					printf("\nMatricula: %d\n", listaDiscentes[i].matricula);
-					printf("Nome: %s", listaDiscentes[i].nome);
+					printf("Nome: %s\n", listaDiscentes[i].nome);
 					printf("Sexo: %c\n", listaDiscentes[i].sexo);
 					printf("Data Nascimento: %d/%d/%d\n",
 							listaDiscentes[i].dataNascimento.dia,
@@ -109,6 +113,7 @@ int listarDiscentes (int quantidadeDeDiscentes, Discente listaDiscentes[]) {
 							listaDiscentes[i].dataNascimento.ano);
 					printf("CPF: %s\n", listaDiscentes[i].cpf);
 					printf("_____________________________________________\n");
+					
 			}
 		}
 	}

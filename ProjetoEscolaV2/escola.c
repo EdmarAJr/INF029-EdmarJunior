@@ -23,15 +23,15 @@ extern Discente listaDiscentes[TAMANHO_ARRAY_DISCENTE];
 extern Docente listaDocentes[TAMANHO_ARRAY_DOCENTE];
 extern Disciplina listaDisciplinas[TAMANHO_ARRAY_DISCIPLINA];
 
-extern char discentes[13];
-extern char docentes[13];
-extern char disciplinas[15];
+extern char arquivoDiscentes[13];
+// extern char docentes[13];
+// extern char disciplinas[15];
 
 int main(void) {
 	
-	lerDiscentesDeArquivo(discentes); 
-	lerDocentesDeArquivo(docentes); 
-	lerDisciplinasDeArquivo(disciplinas); 
+	lerDiscentesDeArquivo(arquivoDiscentes); 
+	//lerDocentesDeArquivo(docentes); 
+	//lerDisciplinasDeArquivo(disciplinas); 
 
 	int sair = 0; 
 	int opcaoMenu; 
@@ -345,9 +345,9 @@ int main(void) {
 		}
 	}
 
-	escreverDiscentesEmArquivo(discentes);
-	escreverDocentesEmArquivo(docentes);
-	escreverDisciplinasEmArquivo(disciplinas);
+	escreverDiscentesEmArquivo(arquivoDiscentes);
+	//escreverDocentesEmArquivo(docentes);
+	//escreverDisciplinasEmArquivo(disciplinas);
 
 	printf("Programa encerrado");
 	return 0;
