@@ -17,8 +17,9 @@ typedef struct docente {
 	int ativo;
 } Docente;
 
-int cadastrarDocentes(int quantidadeDeDocentes, Docente listaDocentes[]);
-int listarDocentes(int quantidadeDeDocentes, Docente listaDocentes[]);
-int excluirDocente(int quantidadeDeDocentes, Docente listaDocentes[]);
-int atualizarDocente(int quantidadeDeDocentes, Docente listaDocentes[], int sair);
-int buscarDocente(int quantidadeDeDocentes, Docente listaDocentes[], int idDocente);
+int cadastrarDocente (int quantidadeDeDocentes, Docente listaDocentes[]);
+int listarDocentes (int quantidadeDeDocentes, Docente listaDocentes[]);
+int excluirDocente (int quantidadeDeDocentes, Docente listaDocentes[]);
+int atualizarDocente (int quantidadeDeDocentes, Docente listaDocentes[], int sair);
+int buscarDocente (int quantidadeDeDocentes, Docente listaDocentes[], int idDocente);
+int buscarDocentePorId (int quantidadeDeDocentes, Docente listaDocentes[], int idDocente);

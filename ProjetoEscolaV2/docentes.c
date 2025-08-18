@@ -4,51 +4,94 @@
 #include "docentes.h"
 #include "menu.h"
 #include "escola.h"
+#include  "auxiliar.h"
 
-int cadastrarDocentes(int quantidadeDeDocentes, Docente listaDocentes[]) {
+Docente listaDocentes[TAMANHO_ARRAY_DOCENTE];
+int quantidadeDeDocentes = 1; //iniciliza o array com um docente
+int idDocente = 0;
+
+Docente listaDocentes[TAMANHO_ARRAY_DOCENTE] = {
+		{66, "PROFESSOR X", 'M', {10, 10, 2000}, "123.456.789-00", 1}
+};
+
+int cadastrarDocente (int quantidadeDeDocentes, Docente listaDocentes[]) {
 	if (quantidadeDeDocentes == TAMANHO_ARRAY_DOCENTE) {
 		printf("\nQuantidade maxima de Docentes alcancada!\n");
 	} else {
 		printf("\nInforme o id do docente: ");
 		scanf("%d", &listaDocentes[quantidadeDeDocentes].idDocente); 
-		 int encontrado = buscarDocente(quantidadeDeDocentes, listaDocentes, listaDocentes[quantidadeDeDocentes].idDocente); 
-		 getchar();
-				if(encontrado == 1){
-						printf("Erro: id ja cadastrado!\n");
-				} else if(encontrado == -1 ){
-						printf("IdDocente invalido. Tente novamente! \n");
-				} else {
-						printf("Informe o nome da(o) docente: ");
-						fgets(listaDocentes[quantidadeDeDocentes].nome, 50, stdin);
-						size_t ln = strlen(listaDocentes[quantidadeDeDocentes].nome);
+		int encontrado = buscarDocente(quantidadeDeDocentes, listaDocentes, listaDocentes[quantidadeDeDocentes].idDocente); 
+		getchar();
+		if(encontrado == 1){
+			return 1;
+		} else if(encontrado == -1 ){
+			return 2;
+		} else {
+			printf("Informe o nome da(o) docente: ");
+			fgets(listaDocentes[quantidadeDeDocentes].nome, 50, stdin);
+			size_t ln = strlen(listaDocentes[quantidadeDeDocentes].nome);
 
-						printf("Digite o sexo da(o) docente (M) ou (F): ");
-						scanf(" %c", &listaDocentes[quantidadeDeDocentes].sexo); 
-						getchar();
+			char verificarsexo;
 
-						// temporario
-						printf("Digite o dia de nascimento: ");
-						scanf("%d", &listaDocentes[quantidadeDeDocentes].dataNascimento.dia);
+			printf("Digite o sexo da(o) docente (M) ou (F): ");
+			scanf("%c", &verificarsexo);
 
-						printf("Digite o mes de nascimento: ");
-						scanf("%d", &listaDocentes[quantidadeDeDocentes].dataNascimento.mes);
+			int retornoDoSexo = verificadorDeSexo(verificarsexo);
+			if(retornoDoSexo == 1){
+				return 3;
+			} else {
+				listaDocentes[quantidadeDeDocentes].sexo = verificarsexo;// ih agora giovani ???  
+				getchar();	
+			}
+			int validarDia, validarMes, validarAno;
+						
+			printf("Digite o dia de nascimento: ");
+            scanf("%d", &validarDia);
+            
+			if(validarDia <=0 || validarDia > 31){
+				return 4;
+            } else {
+				listaDocentes[quantidadeDeDocentes].dataNascimento.dia = validarDia;
+            }
 
-						printf("Digite o ano de nascimento: ");
-						scanf("%d", &listaDocentes[quantidadeDeDocentes].dataNascimento.ano);
-						getchar();
+            printf("Digite o mes de nascimento: ");
+            scanf("%d", &validarMes);
+					
+			if(validarMes <=0 || validarMes > 12){
+				return 4;
+			} else {
+				listaDocentes[quantidadeDeDocentes].dataNascimento.mes = validarMes;
+			}
 
-						printf("Digite cpf da(o) docente: ");
-						fgets(listaDocentes[quantidadeDeDocentes].cpf, 15, stdin);
-						size_t lr = strlen(listaDocentes[quantidadeDeDocentes].cpf);
-						lr = strlen(listaDocentes[quantidadeDeDocentes].cpf) - 1;
+			printf("Digite o ano de nascimento: ");
+            scanf("%d", &validarAno);
+            getchar();
+            
+			if(validarAno <=1900 || validarMes > 2024){
+                return 4;
+            } else {
+				listaDocentes[quantidadeDeDocentes].dataNascimento.ano =validarAno;
+            }
+						
+			char cpf[15];
+			printf("Digite cpf da(o) docente: ");
+			fgets(cpf, 15, stdin);
 
-						listaDocentes[quantidadeDeDocentes].ativo = 1;
-						return 1;
-				}
+			int retorno = validarCPF("Docente", cpf);						
+			if(retorno == -1){
+				return 5;
+			} else if(retorno == 1){
+				return 6;
+			} else {
+				strcpy(listaDocentes[quantidadeDeDocentes].cpf, cpf);
+				listaDocentes[quantidadeDeDocentes].ativo = 1;
+				return 7;
+			}			
+		}
 	}
 }
 
-int listarDocentes(int quantidadeDeDocentes, Docente listaDocentes[]) {
+int listarDocentes (int quantidadeDeDocentes, Docente listaDocentes[]) {
 	if (quantidadeDeDocentes == 0) {
 		printf("\nErro: Nenhum registro de docente cadastrado!\n");
 	} else {
@@ -56,12 +99,12 @@ int listarDocentes(int quantidadeDeDocentes, Docente listaDocentes[]) {
 			if (listaDocentes[i].ativo == 1) {
 				printf("_____________________________________________");
 				printf("\nidDocente: %d\n", listaDocentes[i].idDocente);
-				printf("Nome: %s\n", listaDocentes[i].nome);
+				printf("Nome: %s", listaDocentes[i].nome);
 				printf("Sexo: %c\n", listaDocentes[i].sexo);
 				printf("Data Nascimento: %d/%d/%d\n",
-							 listaDocentes[i].dataNascimento.dia,
-							 listaDocentes[i].dataNascimento.mes,
-							 listaDocentes[i].dataNascimento.ano);
+						listaDocentes[i].dataNascimento.dia,
+						listaDocentes[i].dataNascimento.mes,
+						listaDocentes[i].dataNascimento.ano);
 				printf("CPF: %s\n", listaDocentes[i].cpf);
 				printf("_____________________________________________\n");
 			}
@@ -69,7 +112,7 @@ int listarDocentes(int quantidadeDeDocentes, Docente listaDocentes[]) {
 	}
 }
 
-int atualizarDocente(int quantidadeDeDocentes, Docente listaDocentes[], int sair) {
+int atualizarDocente (int quantidadeDeDocentes, Docente listaDocentes[], int sair) {
 	int opcaoAtualizar;
 	int idDocente;
 	
@@ -79,12 +122,12 @@ int atualizarDocente(int quantidadeDeDocentes, Docente listaDocentes[], int sair
 		int encontrado = buscarDocente(quantidadeDeDocentes, listaDocentes, idDocente); 
 
 		if(encontrado == 1){
-				opcaoAtualizar = opcaoMenuAtualizarDocente(); 
+			opcaoAtualizar = opcaoMenuAtualizarDocente(); 
 		} else if(encontrado == -1 ){
-				printf("Numero de idDocente invalido. Tente novamente! \n");
+			printf("Numero de idDocente invalido. Tente novamente! \n");
 		} else{
-				printf("\nErro: numero de idDocente nao encontrado! \n");
-				return 0;
+			printf("\nErro: numero de idDocente nao encontrado! \n");
+			return 0;
 		}
 
 		switch (opcaoAtualizar) {
@@ -92,7 +135,7 @@ int atualizarDocente(int quantidadeDeDocentes, Docente listaDocentes[], int sair
 				sair = 1;
 				break;
 			}
-			case 1: {  // essa parte de atualizar ainda precisa ser aprimorada pois chama a funcao buscar e ja exibe erro
+			case 1: {
 				char nomeAtualizado[50];
 
 				printf("Informe o novo nome da(o) Docente: ");
@@ -121,40 +164,30 @@ int atualizarDocente(int quantidadeDeDocentes, Docente listaDocentes[], int sair
 				getchar();
 				break;
 			}
-			// case 4: {
-			// 	char cpfAtualizado[15] ;
-			// 	printf("Digite o novo cpf da(o) Docente: ");
-			// 	getchar();
-			// 	fgets(cpfAtualizado, sizeof(cpfAtualizado), stdin);
-			// 	strcpy(listaDocentes[quantidadeDeDocentes-1].cpf, cpfAtualizado);
-
-			// 	break;
-			// }
 		}
 	}
 }
 
-int excluirDocente(int quantidadeDeDocentes, Docente listaDocentes[]) {
+int excluirDocente (int quantidadeDeDocentes, Docente listaDocentes[]) {
 	int idDocente;
 	printf("\nInforme o numero de idDocente: ");
 	scanf("%d", &idDocente); 
 	int encontrado = buscarDocente(quantidadeDeDocentes, listaDocentes, idDocente); 
 
 		if(encontrado == 1){
-				for (int i = 0; i < quantidadeDeDocentes; i++) {
-						if (idDocente == listaDocentes[i].idDocente && listaDocentes[i].ativo) {
-								listaDocentes[i].ativo = -1;
-
-								for (int j = i; j < quantidadeDeDocentes - 1; j++) {
-									listaDocentes[j].idDocente = listaDocentes[j+1].idDocente;
-									//listaDocentes[j].idDocente = listaDocentes[j+1].nome; //nao esta funcionando
-									listaDocentes[j].sexo = listaDocentes[j+1].sexo;
-									//listaDocentes[j].dataNascimento = listaDocentes[j + 1].dataNascimento; //nao esta funcionando
-									//listaDocentes[j].cpf = listaDocentes[j+1].cpf; //nao esta funcionando
-									listaDocentes[j].ativo = listaDocentes[j+1].ativo;
-								}
-						}  
-				} 
+			for (int i = 0; i < quantidadeDeDocentes; i++) {
+				if (idDocente == listaDocentes[i].idDocente && listaDocentes[i].ativo) {
+					listaDocentes[i].ativo = -1;
+					for (int j = i; j < quantidadeDeDocentes - 1; j++) {
+						listaDocentes[j].idDocente = listaDocentes[j+1].idDocente;
+						strcpy(listaDocentes[j].nome, listaDocentes[j+1].nome); 
+						listaDocentes[j].sexo = listaDocentes[j+1].sexo;
+						listaDocentes[j].dataNascimento = listaDocentes[j+1].dataNascimento;
+						strcpy(listaDocentes[j].cpf, listaDocentes[j+1].cpf);
+						listaDocentes[j].ativo = listaDocentes[j+1].ativo;
+					}
+				}  
+			} 
 		} else if(encontrado == -1 ){
 				return encontrado;
 		}	else{
@@ -163,7 +196,7 @@ int excluirDocente(int quantidadeDeDocentes, Docente listaDocentes[]) {
 }
 
 int buscarDocente (int quantidadeDeDocentes, Docente listaDocentes[], int idDocente) {
-   int docenteEncontrado = 0;
+	int docenteEncontrado = 0;
 
 	if (idDocente <= 0) {
 		docenteEncontrado = -1;
@@ -176,5 +209,22 @@ int buscarDocente (int quantidadeDeDocentes, Docente listaDocentes[], int idDoce
 			}
 		}
 				return docenteEncontrado;
+	}
+}
+
+int buscarDocentePorId (int quantidadeDeDocentes, Docente listaDocentes[], int idDocente){
+	int docenteEncontrado = 0;
+
+	if (idDocente <= 0) {
+		docenteEncontrado = -1;
+    	return docenteEncontrado; //nao existe 
+	} else {
+		for (int i = 0; i < quantidadeDeDocentes; i++) {
+			if (idDocente == listaDocentes[i].idDocente && listaDocentes[i].ativo) {
+				printf("Nome: %s", listaDocentes[i].nome);
+				break;
+			}
+		}
+        return docenteEncontrado;
 	}
 }

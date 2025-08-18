@@ -11,3 +11,5 @@ int opcaoMenuAtualizarDiscente();
 int opcaoMenuDocente(); 
 int opcaoMenuAtualizarDocente(); 
 
+int opcaoMenuDisciplina();
+int opcaoMenuAtualizarDisciplina();

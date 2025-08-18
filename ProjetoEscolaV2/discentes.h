@@ -17,9 +17,9 @@ typedef struct {
 	int ativo;
 } Discente;
 
-
-int cadastrarDiscentes(int quantidadeDeDiscentes, Discente listaDiscentes[]);
-int listarDiscentes(int quantidadeDeDiscentes, Discente listaDiscentes[]);
-int excluirDiscente(int quantidadeDeDiscentes, Discente listaDiscentes[]);
-int atualizarDiscente(int quantidadeDeDiscentes, Discente listaDiscentes[], int sair);
-int buscarDiscente(int quantidadeDeDiscentes, Discente listaDiscentes[], int matricula);
+int cadastrarDiscente (int quantidadeDeDiscentes, Discente listaDiscentes[]);
+int listarDiscentes (int quantidadeDeDiscentes, Discente listaDiscentes[]);
+int excluirDiscente (int quantidadeDeDiscentes, Discente listaDiscentes[]);
+int atualizarDiscente (int quantidadeDeDiscentes, Discente listaDiscentes[], int sair);
+int buscarDiscente (int quantidadeDeDiscentes, Discente listaDiscentes[], int matricula);
+int buscarDiscentePorId (int quantidadeDeDiscentes, Discente listaDiscentes[], int idDiscente);
