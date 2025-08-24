@@ -220,7 +220,7 @@ int buscarDocentePorId (int quantidadeDeDocentes, Docente listaDocentes[], int i
 	} else {
 		for (int i = 0; i < quantidadeDeDocentes; i++) {
 			if (idDocente == listaDocentes[i].idDocente && listaDocentes[i].ativo) {
-				printf("Docente: %s", listaDocentes[i].nome);
+				printf("Docente: %s\n", listaDocentes[i].nome);
 				break;
 			}
 		}

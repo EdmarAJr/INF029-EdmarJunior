@@ -11,6 +11,7 @@ typedef struct disciplina{
 	char nome[500];
 	int cargaHoraria; 
 	int vagasDisponiveis; 
+	int quantidadeDeDiscentesMatriculados; 
 	int idAlunosMatriculados[MAX_VAGAS];
 	int ativo; 
 } Disciplina;

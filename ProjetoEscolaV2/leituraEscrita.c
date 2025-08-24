@@ -139,15 +139,31 @@ void lerDisciplinasDeArquivo(char *nomeArquivo) {
         fclose(arquivo);
         return;
     }
-    while (fscanf(arquivo, "%d;%d;%14[^;];%d;%d;%d,\n",
+    while (fscanf(arquivo, "%d;%d;%49[^;];%d;%d;%d;%199[^;];%d,\n",
         &listaDisciplinas[contadorDisciplina].idDisciplina,
         &listaDisciplinas[contadorDisciplina].idDocente,
         listaDisciplinas[contadorDisciplina].nome,
         &listaDisciplinas[contadorDisciplina].cargaHoraria,
         &listaDisciplinas[contadorDisciplina].vagasDisponiveis,
-        &listaDisciplinas[contadorDisciplina].ativo) == 7) {
+        &listaDisciplinas[contadorDisciplina].quantidadeDeDiscentesMatriculados, 
+        linha, // string temporária para os ids dos alunos
+        &listaDisciplinas[contadorDisciplina].ativo) == 8) {
+        // contadorDisciplina++;
+        // quantidadeDeDisciplinas = contadorDisciplina;              
+        // if (contadorDisciplina >= TAMANHO_ARRAY_DISCIPLINA) break;
+
+
+         // Parse dos ids dos alunos matriculados
+        int idx = 0;
+        char *token = strtok(linha, ",");
+        while (token != NULL && idx < MAX_VAGAS) {
+            listaDisciplinas[contadorDisciplina].idAlunosMatriculados[idx++] = atoi(token);
+            token = strtok(NULL, ",");
+        }
+        listaDisciplinas[contadorDisciplina].quantidadeDeDiscentesMatriculados = idx;
+
         contadorDisciplina++;
-        quantidadeDeDisciplinas = contadorDisciplina;
+        quantidadeDeDisciplinas = contadorDisciplina;              
         if (contadorDisciplina >= TAMANHO_ARRAY_DISCIPLINA) break;
     }
     fclose(arquivo);
@@ -160,15 +176,28 @@ void escreverDisciplinasEmArquivo(char *nomeArquivo) {
         printf("Erro ao abrir o arquivo %s\n", nomeArquivo);
         return;
     } 
-    
+
     for (int i = contadorDisciplina; i < quantidadeDeDisciplinas; i++) {
-        fprintf(arquivo, "%d;%d;%s;%d;%d;%d,\n",
+        fprintf(arquivo, "%d;%d;%s;%d;%d;",
                 listaDisciplinas[i].idDisciplina,
                 listaDisciplinas[i].idDocente,
                 listaDisciplinas[i].nome,
                 listaDisciplinas[i].cargaHoraria,
-                listaDisciplinas[i].vagasDisponiveis,
-                listaDisciplinas[i].ativo);
+                listaDisciplinas[i].vagasDisponiveis
+        );        
+                // Escreve a quantidade de alunos
+        fprintf(arquivo, "%d;", listaDisciplinas[i].quantidadeDeDiscentesMatriculados);
+
+        // Escreve os IDs dos alunos separados por vírgula
+        for (int j = 0; j < listaDisciplinas[i].quantidadeDeDiscentesMatriculados; j++) {
+            fprintf(arquivo, "%d", listaDisciplinas[i].idAlunosMatriculados[j]);
+            if (j < listaDisciplinas[i].quantidadeDeDiscentesMatriculados - 1) {
+                fprintf(arquivo, ",");
+            }
+        }
+
+        // Escreve o campo ativo e quebra de linha
+        fprintf(arquivo, ";%d,\n", listaDisciplinas[i].ativo);
     }       
     fclose(arquivo);
 }   

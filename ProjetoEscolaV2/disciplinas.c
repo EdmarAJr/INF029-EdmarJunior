@@ -15,6 +15,7 @@ Disciplina listaDisciplinas[TAMANHO_ARRAY_DISCIPLINA];
 
 int quantidadeDeDisciplinas = 0;
 int idDisciplina = 0;
+int quantidadeDeDiscentesMatriculados = 0;
 
 int cadastrarDisciplina (int quantidadeDeDisciplinas, Disciplina listaDisciplinas[]){ 
 
@@ -52,8 +53,11 @@ int cadastrarDisciplina (int quantidadeDeDisciplinas, Disciplina listaDisciplina
 			// remover o '\n' se ele existir
 			listaDisciplinas[quantidadeDeDisciplinas].nome[strcspn(listaDisciplinas[quantidadeDeDisciplinas].nome, "\n")] = '\0';              
 
+			int cargaHoraria;
 			printf("informe a carga horaria da disciplina: ");
 			scanf("%d", &cargaHoraria);
+
+			listaDisciplinas[quantidadeDeDisciplinas].cargaHoraria = cargaHoraria;
 
 			listaDisciplinas[quantidadeDeDisciplinas].vagasDisponiveis = MAX_VAGAS;
 			
@@ -82,11 +86,18 @@ int cadastrarDisciplina (int quantidadeDeDisciplinas, Disciplina listaDisciplina
 							} else if (resultado == 0){
 								return 6;
 							} else if (resultado == 1){
-								for(int i = 0; i < quantidadeDeDisciplinas; i++){
-									listaDisciplinas[quantidadeDeDisciplinas].idAlunosMatriculados[i] = idDiscente;
-									listaDisciplinas[quantidadeDeDisciplinas].vagasDisponiveis--;
-									printf("Aluno adicionado!\n");
-								}
+								// for(int i = 0; i < listaDisciplinas[quantidadeDeDisciplinas].vagasDisponiveis; i++){
+								// 	listaDisciplinas[quantidadeDeDisciplinas].idAlunosMatriculados[i] = idDiscente;
+								// 	listaDisciplinas[quantidadeDeDisciplinas].vagasDisponiveis--;
+								// 	listaDisciplinas[quantidadeDeDisciplinas].quantidadeDeDiscentesMatriculados++;
+								// 	printf("Aluno adicionado!\n");
+								// }
+
+								int idx = listaDisciplinas[quantidadeDeDisciplinas].quantidadeDeDiscentesMatriculados;
+								listaDisciplinas[quantidadeDeDisciplinas].idAlunosMatriculados[idx] = idDiscente;
+								listaDisciplinas[quantidadeDeDisciplinas].quantidadeDeDiscentesMatriculados++;
+								listaDisciplinas[quantidadeDeDisciplinas].vagasDisponiveis--;
+								printf("Aluno adicionado!\n");
 							}
 							printf("Deseja adicionar outro aluno? (0 - nao | 1 - sim): ");
         					scanf("%d", &opcaoCadastro);
@@ -109,9 +120,8 @@ void listarDisciplinas (int quantidadeDeDisciplinas, Disciplina listaDisciplinas
 				printf("_____________________________________________");
 				printf("\nidDisciplina: %d\n", listaDisciplinas[i].idDisciplina);
 				printf("Nome: %s\n", listaDisciplinas[i].nome);
-				printf("Docente: %d\n", listaDisciplinas[i].idDocente);
 				buscarDocentePorId(quantidadeDeDocentes, listaDocentes, listaDisciplinas[i].idDocente);
-				printf("Vagas Disponiveis: %d\n", listaDisciplinas[i].vagasDisponiveis);
+				printf("Vagas disponiveis: %d\n", listaDisciplinas[i].vagasDisponiveis);
 				printf("_____________________________________________\n");
 				
 			}
@@ -221,8 +231,7 @@ int listarDisciplinasComAlunos (int quantidadeDeDisciplinas, Disciplina listaDis
 		printf("idDisciplina valido");
 		for (int i=0; i < quantidadeDeDisciplinas; i++){
 			if(idParaMostarDiscplina == listaDisciplinas[i].idDisciplina){
-    			//pensar na logica de contar os alunos matriculados          
-				for (int k=0; k < listaDisciplinas[i].vagasDisponiveis; i++){
+				for (int k=0; k < listaDisciplinas[quantidadeDeDisciplinas].quantidadeDeDiscentesMatriculados; i++){
 					buscarDiscentePorId(quantidadeDeDiscentes, listaDiscentes,idParaMostarDiscplina);
 				}
 			}
