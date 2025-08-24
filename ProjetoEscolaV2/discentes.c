@@ -5,16 +5,14 @@
 #include "menu.h"
 #include "discentes.h"
 #include "auxiliar.h"
+#include "leituraEscrita.h"
+extern char arquivoDiscentes[13];
+
 
 Discente listaDiscentes[TAMANHO_ARRAY_DISCENTE];
 
-int quantidadeDeDiscentes = 0; // inicializa com 1 para evitar que o primeiro cadastro seja excluido
+int quantidadeDeDiscentes = 0; 
 int matricula = 0;
-
-// Discente listaDiscentes[TAMANHO_ARRAY_DISCENTE] = {
-// 	{55, "Estudante Y", 'M', {10, 10, 2000}, "123.456.789-09", 1}
-// };
-
 
 int cadastrarDiscente (int quantidadeDeDiscentes, Discente listaDiscentes[]) {
 	if (quantidadeDeDiscentes == TAMANHO_ARRAY_DISCENTE) {
@@ -97,7 +95,7 @@ int cadastrarDiscente (int quantidadeDeDiscentes, Discente listaDiscentes[]) {
 	}
 }
 
-int listarDiscentes (int quantidadeDeDiscentes, Discente listaDiscentes[]) {
+void listarDiscentes (int quantidadeDeDiscentes, Discente listaDiscentes[]) {
 		if (quantidadeDeDiscentes == 0) {
 		printf("\nErro: Nenhum registro de discente cadastrado!\n\n");
 	} else {
@@ -116,7 +114,7 @@ int listarDiscentes (int quantidadeDeDiscentes, Discente listaDiscentes[]) {
 					
 			}
 		}
-	}
+	 }
 }
 
 int atualizarDiscente (int quantidadeDeDiscentes, Discente listaDiscentes[], int sair) {

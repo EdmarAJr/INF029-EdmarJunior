@@ -24,14 +24,14 @@ extern Docente listaDocentes[TAMANHO_ARRAY_DOCENTE];
 extern Disciplina listaDisciplinas[TAMANHO_ARRAY_DISCIPLINA];
 
 extern char arquivoDiscentes[13];
-// extern char docentes[13];
-// extern char disciplinas[15];
+extern char arquivoDocentes[13];
+extern char arquivoDisciplinas[15];
 
 int main(void) {
 	
 	lerDiscentesDeArquivo(arquivoDiscentes); 
-	//lerDocentesDeArquivo(docentes); 
-	//lerDisciplinasDeArquivo(disciplinas); 
+	lerDocentesDeArquivo(arquivoDocentes); 
+	lerDisciplinasDeArquivo(arquivoDisciplinas); 
 
 	int sair = 0; 
 	int opcaoMenu; 
@@ -138,7 +138,7 @@ int main(void) {
 					break;
 					}
 					default: {
-					printf("Opcao invalida (Discente)");
+					printf("Opcao invalida (Discente)\n");
 					}
 				}
 				}
@@ -236,7 +236,7 @@ int main(void) {
 						break;
 					}
 					default: {
-						printf("Opcao invalida");
+						printf("Opcao invalida (Docente)\n");
 					}
 					}
 				}
@@ -247,7 +247,7 @@ int main(void) {
 				int sairDisciplina = 0;
 				int opcaoDisciplina;
 				while (!sairDisciplina) {
-					opcaoDisciplina = opcaoMenuDisciplina ();
+					opcaoDisciplina = opcaoMenuDisciplina();
 
 					switch (opcaoDisciplina) {
 						case 0: {
@@ -256,7 +256,7 @@ int main(void) {
 						}
 						case 1: {
 							printf("\n1 - < Cadastrar Disciplina >\n");
-							int retorno = cadastrarDisciplina (quantidadeDeDisciplinas, listaDisciplinas);
+							int retorno = cadastrarDisciplina(quantidadeDeDisciplinas, listaDisciplinas);
 						
 							switch(retorno){
 								case 1: {
@@ -276,7 +276,7 @@ int main(void) {
 									break;
 								}
 								case 5: {
-									printf("Erro: umero de matricula invalido!\n");
+									printf("Erro: numero de matricula invalido!\n");
 									break;
 								}
 								case 6: {
@@ -333,21 +333,21 @@ int main(void) {
 						}
 						
 						default: {
-							printf("Opcao invalida");
+							printf("Opcao invalida (Disciplina)\n");
 						}
 					}
 				}
 				break;
 			}
 			default: {
-				printf("Opcao invalida");
+				printf("Opcao invalida\n");
 			}
 		}
 	}
 
 	escreverDiscentesEmArquivo(arquivoDiscentes);
-	//escreverDocentesEmArquivo(docentes);
-	//escreverDisciplinasEmArquivo(disciplinas);
+	escreverDocentesEmArquivo(arquivoDocentes);
+	escreverDisciplinasEmArquivo(arquivoDisciplinas);
 
 	printf("Programa encerrado");
 	return 0;

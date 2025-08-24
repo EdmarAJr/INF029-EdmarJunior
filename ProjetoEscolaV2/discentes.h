@@ -18,7 +18,7 @@ typedef struct {
 } Discente;
 
 int cadastrarDiscente (int quantidadeDeDiscentes, Discente listaDiscentes[]);
-int listarDiscentes (int quantidadeDeDiscentes, Discente listaDiscentes[]);
+void listarDiscentes (int quantidadeDeDiscentes, Discente listaDiscentes[]);
 int excluirDiscente (int quantidadeDeDiscentes, Discente listaDiscentes[]);
 int atualizarDiscente (int quantidadeDeDiscentes, Discente listaDiscentes[], int sair);
 int buscarDiscente (int quantidadeDeDiscentes, Discente listaDiscentes[], int matricula);

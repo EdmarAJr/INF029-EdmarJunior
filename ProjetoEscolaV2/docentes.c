@@ -7,12 +7,8 @@
 #include  "auxiliar.h"
 
 Docente listaDocentes[TAMANHO_ARRAY_DOCENTE];
-int quantidadeDeDocentes = 1; //iniciliza o array com um docente
+int quantidadeDeDocentes = 0;
 int idDocente = 0;
-
-Docente listaDocentes[TAMANHO_ARRAY_DOCENTE] = {
-		{66, "PROFESSOR X", 'M', {10, 10, 2000}, "123.456.789-00", 1}
-};
 
 int cadastrarDocente (int quantidadeDeDocentes, Docente listaDocentes[]) {
 	if (quantidadeDeDocentes == TAMANHO_ARRAY_DOCENTE) {
@@ -20,8 +16,10 @@ int cadastrarDocente (int quantidadeDeDocentes, Docente listaDocentes[]) {
 	} else {
 		printf("\nInforme o id do docente: ");
 		scanf("%d", &listaDocentes[quantidadeDeDocentes].idDocente); 
+		
 		int encontrado = buscarDocente(quantidadeDeDocentes, listaDocentes, listaDocentes[quantidadeDeDocentes].idDocente); 
 		getchar();
+
 		if(encontrado == 1){
 			return 1;
 		} else if(encontrado == -1 ){
@@ -29,7 +27,8 @@ int cadastrarDocente (int quantidadeDeDocentes, Docente listaDocentes[]) {
 		} else {
 			printf("Informe o nome da(o) docente: ");
 			fgets(listaDocentes[quantidadeDeDocentes].nome, 50, stdin);
-			size_t ln = strlen(listaDocentes[quantidadeDeDocentes].nome);
+			//remover o '\n' se ele existir
+			listaDocentes[quantidadeDeDocentes].nome[strcspn(listaDocentes[quantidadeDeDocentes].nome, "\n")] = '\0';
 
 			char verificarsexo;
 
@@ -91,7 +90,7 @@ int cadastrarDocente (int quantidadeDeDocentes, Docente listaDocentes[]) {
 	}
 }
 
-int listarDocentes (int quantidadeDeDocentes, Docente listaDocentes[]) {
+void listarDocentes (int quantidadeDeDocentes, Docente listaDocentes[]) {
 	if (quantidadeDeDocentes == 0) {
 		printf("\nErro: Nenhum registro de docente cadastrado!\n");
 	} else {
@@ -99,7 +98,7 @@ int listarDocentes (int quantidadeDeDocentes, Docente listaDocentes[]) {
 			if (listaDocentes[i].ativo == 1) {
 				printf("_____________________________________________");
 				printf("\nidDocente: %d\n", listaDocentes[i].idDocente);
-				printf("Nome: %s", listaDocentes[i].nome);
+				printf("Nome: %s\n", listaDocentes[i].nome);
 				printf("Sexo: %c\n", listaDocentes[i].sexo);
 				printf("Data Nascimento: %d/%d/%d\n",
 						listaDocentes[i].dataNascimento.dia,
@@ -221,7 +220,7 @@ int buscarDocentePorId (int quantidadeDeDocentes, Docente listaDocentes[], int i
 	} else {
 		for (int i = 0; i < quantidadeDeDocentes; i++) {
 			if (idDocente == listaDocentes[i].idDocente && listaDocentes[i].ativo) {
-				printf("Nome: %s", listaDocentes[i].nome);
+				printf("Docente: %s", listaDocentes[i].nome);
 				break;
 			}
 		}

@@ -18,7 +18,7 @@ typedef struct docente {
 } Docente;
 
 int cadastrarDocente (int quantidadeDeDocentes, Docente listaDocentes[]);
-int listarDocentes (int quantidadeDeDocentes, Docente listaDocentes[]);
+void listarDocentes (int quantidadeDeDocentes, Docente listaDocentes[]);
 int excluirDocente (int quantidadeDeDocentes, Docente listaDocentes[]);
 int atualizarDocente (int quantidadeDeDocentes, Docente listaDocentes[], int sair);
 int buscarDocente (int quantidadeDeDocentes, Docente listaDocentes[], int idDocente);
